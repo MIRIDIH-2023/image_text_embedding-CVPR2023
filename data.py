@@ -1007,10 +1007,10 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
     
     """
     test = split != 'train'
-    caption_drop_prob = opt.caption_drop_prob if split == 'train' else 0
-    image_drop_prob = opt.butd_drop_prob if split == 'train' else 0
-    coco_butd_splits = {'train':'train', 'val':'dev', 'test':'testall'}
-    f30k_butd_splits = {'train':'train', 'val':'dev', 'test':'test'}
+    #caption_drop_prob = opt.caption_drop_prob if split == 'train' else 0
+    #image_drop_prob = opt.butd_drop_prob if split == 'train' else 0
+    #coco_butd_splits = {'train':'train', 'val':'dev', 'test':'testall'}
+    #f30k_butd_splits = {'train':'train', 'val':'dev', 'test':'test'}
     
     use_bert = opt.use_bert
     
@@ -1022,7 +1022,7 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
                 split=split,
                 transform=transform,
                 ids=ids,
-                drop_prob=caption_drop_prob
+                drop_prob=0.1
             )
             collate = collate_fn
         else:
@@ -1032,7 +1032,7 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
                 split=split,
                 transform=transform,
                 ids=ids,
-                drop_prob=caption_drop_prob
+                drop_prob=0.1
             )
             collate = collate_fn
     
@@ -1170,14 +1170,14 @@ def get_image_transform(data_name, split_name, opt):
 
 
 def get_loaders(opt, vocab):
-    dpath = os.path.join(opt.data_path, opt.data_name)
-    roots, ids = get_paths(dpath, opt.data_name)
-    transform = get_transform(opt.data_name, 'train', opt)
+    #dpath = os.path.join(opt.data_path, opt.data_name)
+    #roots, ids = get_paths(dpath, opt.data_name)
+    #transform = get_transform(opt.data_name, 'train', opt)
     train_loader = get_loader_single(
         opt.data_name, 'train',
-        roots['train']['img'], #root
-        roots['train']['cap'], #json
-        vocab, transform, ids=ids['train'],
+        1, #roots['train']['img'], #root
+        1, #roots['train']['cap'], #json
+        vocab, transform, ids=1, #ids['train'],
         batch_size=opt.batch_size, shuffle=True,
         num_workers=opt.workers,
         opt=opt)
@@ -1185,10 +1185,10 @@ def get_loaders(opt, vocab):
     transform = get_transform(opt.data_name, 'val', opt)
     val_loader = get_loader_single(
         opt.data_name, 'val',
-        roots['val']['img'],
-        roots['val']['cap'],
-        vocab, transform, ids=ids['val'],
-        batch_size=opt.batch_size_eval, shuffle=False,
+        1, #roots['train']['img'], #root
+        1, #roots['train']['cap'], #json
+        vocab, transform, ids=1, #ids['train'],
+        batch_size=opt.batch_size, shuffle=True,
         num_workers=opt.workers,
         opt=opt)
 
