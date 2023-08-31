@@ -7,6 +7,10 @@ parser = argparse.ArgumentParser(description='Parameters for training PVSE')
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 
+#path to custom data
+parser.add_argument('--image_root', default='/content/drive/MyDrive/images', type=str , help ='for custom data')
+parser.add_argument('--json_root', default=' /content/drive/MyDrive/data_temp/data_list.pickle',type=str , help='for custom data')
+
 # Names, paths, logging, etc
 parser.add_argument('--data_name', default='coco', choices=('coco', 'f30k', 'coco_butd', 'f30k_butd'), help='Dataset name (coco|cub)')
 parser.add_argument('--data_path', default=CUR_DIR+'/data/', help='path to datasets')
