@@ -22,6 +22,8 @@ from sync_batchnorm import convert_model, SynchronizedBatchNorm2d
 from similarity import SetwiseSimilarity
 from model_spm import VSE
 
+from transformers import BertTokenizer
+
 import logging
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                                         datefmt="%Y-%m-%d %H:%M:%S", level=logging.INFO)
@@ -252,8 +254,10 @@ def main():
     wandb.config.update(args)
 
     # Load Vocabulary Wrapper
-    vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
-    vocab = pickle.load(open(vocab_path, 'rb'))
+    #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
+    #vocab = pickle.load(open(vocab_path, 'rb'))
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    vocab = tokenizer.vocab
     vocab.add_word('<mask>')
     print('Add <mask> token into the vocab')
 
