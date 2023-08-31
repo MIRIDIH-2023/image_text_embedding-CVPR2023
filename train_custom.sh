@@ -1,5 +1,5 @@
 python3 train.py \
---data_name coco_butd --cnn_type resnet152 --wemb_type glove \
+--data_name custom --cnn_type resnet152 --wemb_type glove \
 --margin 0.2 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
 --img_attention --txt_attention --img_finetune --txt_finetune \
 --mmd_weight 0.01 --unif_weight 0.01 \

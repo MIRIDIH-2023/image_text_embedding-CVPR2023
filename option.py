@@ -12,7 +12,7 @@ parser.add_argument('--image_root', default='/content/drive/MyDrive/images', typ
 parser.add_argument('--json_root', default=' /content/drive/MyDrive/data_temp/data_list.pickle',type=str , help='for custom data')
 
 # Names, paths, logging, etc
-parser.add_argument('--data_name', default='coco', choices=('coco', 'f30k', 'coco_butd', 'f30k_butd'), help='Dataset name (coco|cub)')
+parser.add_argument('--data_name', default='coco', choices=('coco', 'f30k', 'coco_butd', 'f30k_butd','custom'), help='Dataset name (coco|cub)')
 parser.add_argument('--data_path', default=CUR_DIR+'/data/', help='path to datasets')
 parser.add_argument('--vocab_path', default=CUR_DIR+'/vocab/', help='Path to saved vocabulary pickle files')
 parser.add_argument('--logger_name', default=CUR_DIR+'/runs/', help='Path to save the model and logs')

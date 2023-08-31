@@ -257,7 +257,7 @@ def main():
     #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
     #vocab = pickle.load(open(vocab_path, 'rb'))
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    vocab = tokenizer.vocab
+    vocab = tokenizer.vocabs
     vocab.add_word('<mask>')
     print('Add <mask> token into the vocab')
 
