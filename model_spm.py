@@ -510,7 +510,7 @@ class EncoderTextBERT(nn.Module):
         
         self.bert = BertModel.from_pretrained('bert-base-uncased')
         self.linear = nn.Linear(768, self.embed_size)
-        self.use_checkpoint = opt.use_checkpoint
+        #self.use_checkpoint = opt.use_checkpoint
 
         # Sentence embedding
         self.txt_attention_input = opt.txt_attention_input
