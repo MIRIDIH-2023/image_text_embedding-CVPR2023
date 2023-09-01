@@ -2,6 +2,7 @@ import os
 import math
 import shutil
 import pickle
+from tqdm import tqdm
 
 import torch
 import torch.nn as nn
@@ -65,7 +66,7 @@ def train(epoch, data_loader, model, criterion, optimizer, scaler, args, lr_warm
 
     total_batches = len(data_loader)
     
-    for itr, data in enumerate(data_loader):
+    for itr, data in enumerate(tqdm(data_loader, total=len(data_loader))):
         total_iter += 1
         if torch.cuda.is_available():
             if 'butd' in args.data_name:
@@ -373,6 +374,7 @@ def main():
     # AMP
     scaler = torch.cuda.amp.GradScaler(enabled=args.amp)
     
+    print("train start!")
     for epoch in range(args.num_epochs):
         #warm up training data
         warmup(model, epoch, args, args.multi_gpu)
