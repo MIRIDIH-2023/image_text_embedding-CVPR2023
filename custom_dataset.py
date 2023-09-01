@@ -28,8 +28,6 @@ def tokenize(sentence, vocab, drop_prob):
     def caption_augmentation(tokens):
         idxs = []
         for i, t in enumerate(tokens):
-            if(i>500):
-                break
             prob = random.random()
             if prob < drop_prob:
                 prob /= drop_prob
