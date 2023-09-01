@@ -21,7 +21,7 @@ python3 train.py \
 --res_only_norm --img_1x1_dropout 0.1 --spm_pre_norm \
 --gpo_1x1 --gpo_rnn \
 --weight_decay 1e-4 --grad_clip 1 --lr_warmup -1 --unif_residual \
---workers 4 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
+--workers 2 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle
 
 #txt_pooling rnn -> cls
