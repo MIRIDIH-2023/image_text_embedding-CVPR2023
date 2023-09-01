@@ -265,7 +265,7 @@ def main():
     #vocab = pickle.load(open(vocab_path, 'rb'))
     #tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
     tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
-    
+    print(f"original tokenizer vocab size : {tokenizer.vocab_size}")
     vocab = Vocabulary()
     vocab.add_word('<mask>')
     vocab.add_word('<pad>')

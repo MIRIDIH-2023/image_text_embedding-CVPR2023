@@ -508,7 +508,9 @@ class EncoderTextBERT(nn.Module):
         self.embed_size = embed_size
         self.use_attention = opt.txt_attention
         
-        self.bert = BertModel.from_pretrained('bert-base-uncased')
+        #self.bert = BertModel.from_pretrained('bert-base-uncased')
+        self.bert = BertModel.from_pretrained("kykim/bert-kor-base")
+        
         self.linear = nn.Linear(768, self.embed_size)
         #self.use_checkpoint = opt.use_checkpoint # do not use
 
