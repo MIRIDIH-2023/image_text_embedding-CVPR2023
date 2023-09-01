@@ -146,7 +146,7 @@ parser.add_argument('--cub_sampler', default='pcme', choices=('shuffle','pcme', 
 parser.add_argument('--ten_crop',action='store_true')
 parser.add_argument('--ten_crop_idx',type=int)
 parser.add_argument('--only_res',action='store_true')
-parser.add_argument('--use_bert',default=True, action='store_true')
+parser.add_argument('--use_bert',default=False, action='store_true') #
 parser.add_argument('--sep_bert_fc', action='store_true')
 parser.add_argument('--gpo_aug', action='store_true')
 parser.add_argument('--res_only_norm', action='store_true')

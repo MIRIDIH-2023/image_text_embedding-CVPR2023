@@ -284,13 +284,15 @@ def main():
         trn_loader, val_loader = data.get_loaders(args, vocab) #여기 vocab은 안씀.
     else:
         raise NotImplementedError
+    print("dataloader made")
 
     # Construct the model
     if 'butd' in args.data_name:
         model = VSE(vocab.word2idx, args)
     else:
         model = VSE(vocab.word2idx, args)
-            
+    print("model made")
+    
     if torch.cuda.is_available():
         if args.multi_gpu:
             model = nn.DataParallel(model, output_device=1)
@@ -298,7 +300,8 @@ def main():
             model = convert_model(model)
         model = model.cuda()
         cudnn.benchmark = True
-        
+    print("move model to gpu")
+       
     wandb.watch(models=model, log_freq=1000, log='gradients')
     
     # similarity function options
@@ -327,7 +330,8 @@ def main():
         eval_similarity_fn = train_similarity_fn
     else:
         assert False
-            
+    print("set loss")
+          
     # Loss and optimizer
     if args.loss in ['smooth_chamfer', 'chamfer', 'max', 'mp']:
         # assert args.fast_batch
@@ -339,6 +343,7 @@ def main():
         )
     else:
         assert False
+    print("set criterion")
         
     module = model.module if args.multi_gpu else model
     param_groups = [
