@@ -496,7 +496,7 @@ class EncoderText(nn.Module):
         out = l2norm(out)
         return out, attn, residual
 
-    
+from transformers import AutoModel, AutoTokenizer
 class EncoderTextBERT(nn.Module):
 
     def __init__(self, opt, shared_memory=None, shared_query=None):
@@ -509,7 +509,8 @@ class EncoderTextBERT(nn.Module):
         self.use_attention = opt.txt_attention
         
         #self.bert = BertModel.from_pretrained('bert-base-uncased')
-        self.bert = BertModel.from_pretrained("kykim/bert-kor-base")
+        #self.bert = BertModel.from_pretrained("kykim/bert-kor-base")
+        self.bert = AutoModel.from_pretrained("monologg/kobigbird-bert-base")
         
         self.linear = nn.Linear(768, self.embed_size)
         #self.use_checkpoint = opt.use_checkpoint # do not use

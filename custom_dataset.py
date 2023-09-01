@@ -14,9 +14,11 @@ import nltk
 from PIL import Image
 from transformers import BertTokenizer
 from transformers import BertTokenizerFast
+from transformers import AutoModel, AutoTokenizer
 
 #TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
-TOKENIZER = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
+#TOKENIZER = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
+TOKENIZER = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
 TOKENIZER.add_special_tokens(special_tokens_dict=
                             {'additional_special_tokens' : ['<mask>','<pad>','<start>','<end>','<unk>']})
 
