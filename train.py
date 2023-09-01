@@ -285,7 +285,7 @@ def main():
     if args.data_name in ['coco', 'f30k', 'coco_butd', 'f30k_butd']:
         txt_per_img = 5
     elif args.data_name in ['custom']:
-        txt_per_img = 2
+        txt_per_img = 1
         print(f"you select custom dataset. current txt_per_imag : {txt_per_img}")
     else:
         raise NotImplementedError
@@ -409,7 +409,8 @@ def main():
         
         # evaluate on validation set
         with torch.no_grad():
-            if epoch % args.eval_epoch == 0:
+            #if epoch % args.eval_epoch == 0:
+            if True:
                 val_score, i2t_recall, t2i_recall, recall_1k = validate(None, val_loader, model, args, eval_similarity_fn, True, epoch, best_score)
                 wandb.log({"val i2t R@1" : i2t_recall[0]}, step=total_iter)
                 wandb.log({"val i2t R@5" : i2t_recall[1]}, step=total_iter)
