@@ -19,7 +19,7 @@ TOKENIZER.add_special_tokens(special_tokens_dict=
                             {'additional_special_tokens' : ['<mask>','<pad>','<start>','<end>','<unk>']})
 
 
-print(TOKENIZER.tokenize(text='hello word'))
+print(TOKENIZER.tokenize(text='hello word <mask> <pad> <start> <end> <unk> <> < >'))
 
 def tokenize(sentence, vocab, drop_prob):
     # Convert sentence (string) to word ids.

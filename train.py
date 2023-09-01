@@ -273,7 +273,7 @@ def main():
         vocab.add_word(keys)
     print('Add special tokens inclue <mask> into the vocab')
     ###################################### my custom vocab ##################################
-    
+    print(f"length of vocab : {len(vocab.word2idx)}")
     
     # Dataloaders
     if args.data_name in ['coco', 'f30k', 'coco_butd', 'f30k_butd']:
