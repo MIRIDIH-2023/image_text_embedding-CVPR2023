@@ -129,6 +129,7 @@ def validate(dataset, data_loader, model, args, similarity_fn, validation, epoch
     model.eval()
 
     nreps = 5 if args.data_name in ['f30k', 'coco', 'coco_butd', 'f30k_butd'] else 10
+    nreps = 2 if args.data_name in ['custom'] else 5 ####################
 
     img_embs, txt_embs = encode_data(model, data_loader, 'butd' in args.data_name, args.eval_on_gpu)
     # 5fold cross-validation, only for MSCOCO
@@ -257,9 +258,11 @@ def main():
     #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
     #vocab = pickle.load(open(vocab_path, 'rb'))
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    tokenizer.add_special_tokens(special_tokens_dict={'additional_special_tokens' : '<mask>'})
     vocab = tokenizer.vocab
-    vocab.add_word('<mask>')
     print('Add <mask> token into the vocab')
+    print(tokenizer.additional_special_tokens)
+    print(vocab)
 
     # Dataloaders
     if args.data_name in ['coco', 'f30k', 'coco_butd', 'f30k_butd']:
@@ -271,7 +274,7 @@ def main():
         raise NotImplementedError
 
     if args.data_name in ['coco', 'f30k', 'coco_butd', 'f30k_butd','custom']:
-        trn_loader, val_loader = data.get_loaders(args, vocab)
+        trn_loader, val_loader = data.get_loaders(args, vocab) #여기 vocab은 안씀.
     else:
         raise NotImplementedError
 

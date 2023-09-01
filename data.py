@@ -34,47 +34,66 @@ def get_paths(path, name='coco', use_restval=True):
     :param use_restval: If True, the `restval` data is included in train for COCO dataset.
     """
     roots, ids = {}, {}
-    if 'coco' == name:
-        imgdir = os.path.join(path, 'images')
-        capdir = os.path.join(path, 'annotations')
+    
+    if name=='custom':
         roots['train'] = {
-            'img': os.path.join(imgdir, 'train2014'),
-            'cap': os.path.join(capdir, 'captions_train2014.json'),
+            'img' : 'none',
+            'cap' : 'none',
         }
         roots['val'] = {
-            'img': os.path.join(imgdir, 'val2014'),
-            'cap': os.path.join(capdir, 'captions_val2014.json'),
+            'img' : 'none',
+            'cap' : 'none',
         }
         roots['test'] = {
-            'img': os.path.join(imgdir, 'val2014'),
-            'cap': os.path.join(capdir, 'captions_val2014.json'),
+            'img' : 'none',
+            'cap' : 'none',
         }
-        roots['trainrestval'] = {
-            'img': (roots['train']['img'], roots['val']['img']),
-            'cap': (roots['train']['cap'], roots['val']['cap']),
-        }
-        ids['train'] = np.load(os.path.join(capdir, 'coco_train_ids.npy'))
-        ids['val'] = np.load(os.path.join(capdir, 'coco_dev_ids.npy'))[:5000]
-        ids['test'] = np.load(os.path.join(capdir, 'coco_test_ids.npy'))
-        ids['trainrestval'] = (ids['train'],
-                np.load(os.path.join(capdir, 'coco_restval_ids.npy')))
-        if use_restval:
-            roots['train'] = roots['trainrestval']
-            ids['train'] = ids['trainrestval']
-    elif 'f30k' == name:
-        imgdir = os.path.join(path, 'images')
-        cap = os.path.join(path, 'dataset_flickr30k.json')
-        roots['train'] = {'img': imgdir, 'cap': cap}
-        roots['val'] = {'img': imgdir, 'cap': cap}
-        roots['test'] = {'img': imgdir, 'cap': cap}
-        ids = {'train': None, 'val': None, 'test': None}
-    elif name in ['coco_butd', 'f30k_butd']:
-        imgdir = os.path.join(path, 'precomp')
-        cap = os.path.join(path, 'precomp')
-        roots['train'] = {'img': imgdir, 'cap': cap}
-        roots['test'] = {'img': imgdir, 'cap': cap}
-        roots['val'] = {'img': imgdir, 'cap': cap}
-        ids = {'train': None, 'val': None, 'test': None}
+        ids['train'] = None
+        ids['val'] = None
+        ids['test'] = None
+    
+    else:    
+        if 'coco' == name:
+            imgdir = os.path.join(path, 'images')
+            capdir = os.path.join(path, 'annotations')
+            roots['train'] = {
+                'img': os.path.join(imgdir, 'train2014'),
+                'cap': os.path.join(capdir, 'captions_train2014.json'),
+            }
+            roots['val'] = {
+                'img': os.path.join(imgdir, 'val2014'),
+                'cap': os.path.join(capdir, 'captions_val2014.json'),
+            }
+            roots['test'] = {
+                'img': os.path.join(imgdir, 'val2014'),
+                'cap': os.path.join(capdir, 'captions_val2014.json'),
+            }
+            roots['trainrestval'] = {
+                'img': (roots['train']['img'], roots['val']['img']),
+                'cap': (roots['train']['cap'], roots['val']['cap']),
+            }
+            ids['train'] = np.load(os.path.join(capdir, 'coco_train_ids.npy'))
+            ids['val'] = np.load(os.path.join(capdir, 'coco_dev_ids.npy'))[:5000]
+            ids['test'] = np.load(os.path.join(capdir, 'coco_test_ids.npy'))
+            ids['trainrestval'] = (ids['train'],
+                    np.load(os.path.join(capdir, 'coco_restval_ids.npy')))
+            if use_restval:
+                roots['train'] = roots['trainrestval']
+                ids['train'] = ids['trainrestval']
+        elif 'f30k' == name:
+            imgdir = os.path.join(path, 'images')
+            cap = os.path.join(path, 'dataset_flickr30k.json')
+            roots['train'] = {'img': imgdir, 'cap': cap}
+            roots['val'] = {'img': imgdir, 'cap': cap}
+            roots['test'] = {'img': imgdir, 'cap': cap}
+            ids = {'train': None, 'val': None, 'test': None}
+        elif name in ['coco_butd', 'f30k_butd']:
+            imgdir = os.path.join(path, 'precomp')
+            cap = os.path.join(path, 'precomp')
+            roots['train'] = {'img': imgdir, 'cap': cap}
+            roots['test'] = {'img': imgdir, 'cap': cap}
+            roots['val'] = {'img': imgdir, 'cap': cap}
+            ids = {'train': None, 'val': None, 'test': None}
 
     return roots, ids
 
@@ -1007,10 +1026,10 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
     
     """
     test = split != 'train'
-    #caption_drop_prob = opt.caption_drop_prob if split == 'train' else 0
-    #image_drop_prob = opt.butd_drop_prob if split == 'train' else 0
-    #coco_butd_splits = {'train':'train', 'val':'dev', 'test':'testall'}
-    #f30k_butd_splits = {'train':'train', 'val':'dev', 'test':'test'}
+    caption_drop_prob = opt.caption_drop_prob if split == 'train' else 0
+    image_drop_prob = opt.butd_drop_prob if split == 'train' else 0
+    coco_butd_splits = {'train':'train', 'val':'dev', 'test':'testall'}
+    f30k_butd_splits = {'train':'train', 'val':'dev', 'test':'test'}
     
     use_bert = opt.use_bert
     
@@ -1022,7 +1041,7 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
                 split=split,
                 transform=transform,
                 ids=ids,
-                drop_prob=0.1
+                drop_prob=caption_drop_prob
             )
             collate = collate_fn
         else:
@@ -1032,7 +1051,7 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
                 split=split,
                 transform=transform,
                 ids=ids,
-                drop_prob=0.1
+                drop_prob=caption_drop_prob
             )
             collate = collate_fn
     
@@ -1170,24 +1189,27 @@ def get_image_transform(data_name, split_name, opt):
 
 
 def get_loaders(opt, vocab):
-    #dpath = os.path.join(opt.data_path, opt.data_name)
-    #roots, ids = get_paths(dpath, opt.data_name)
-    #transform = get_transform(opt.data_name, 'train', opt)
+    """
+    custom 맞게 수정 필요
+    """
+    dpath = os.path.join(opt.data_path, opt.data_name)
+    roots, ids = get_paths(dpath, opt.data_name)
+    transform = get_transform(opt.data_name, 'train', opt) #ok
     train_loader = get_loader_single(
         opt.data_name, 'train',
-        1, #roots['train']['img'], #root
-        1, #roots['train']['cap'], #json
-        vocab, transform, ids=1, #ids['train'],
+        roots['train']['img'], #root
+        roots['train']['cap'], #json
+        vocab, transform, ids=ids['train'],
         batch_size=opt.batch_size, shuffle=True,
         num_workers=opt.workers,
         opt=opt)
 
-    transform = get_transform(opt.data_name, 'val', opt)
+    transform = get_transform(opt.data_name, 'val', opt) #Ok
     val_loader = get_loader_single(
         opt.data_name, 'val',
-        1, #roots['train']['img'], #root
-        1, #roots['train']['cap'], #json
-        vocab, transform, ids=1, #ids['train'],
+        roots['val']['img'], #root
+        roots['val']['cap'], #json
+        vocab, transform, ids=ids['val'],
         batch_size=opt.batch_size, shuffle=True,
         num_workers=opt.workers,
         opt=opt)
@@ -1196,6 +1218,16 @@ def get_loaders(opt, vocab):
 
 
 def get_test_loader(opt, vocab):
+    """
+    아직은 안씀
+
+    Args:
+        opt (_type_): _description_
+        vocab (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     dpath = os.path.join(opt.data_path, opt.data_name)
     roots, ids = get_paths(dpath, opt.data_name)
     transform = get_transform(opt.data_name, 'test', opt)

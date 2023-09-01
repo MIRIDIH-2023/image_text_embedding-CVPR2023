@@ -50,7 +50,7 @@ def encode_data(model, data_loader, butd, use_gpu=False):
     return img_embs, txt_embs
 
 
-def i2t(images, sentences, similarity_fn, nreps=1, npts=None, return_ranks=False, use_gpu=False, is_cosine=True):
+def i2t(images, sentences, similarity_fn, nreps=2, npts=None, return_ranks=False, use_gpu=False, is_cosine=True):
     """
     Images->Text (Image Annotation)
     Images: (nreps*N, K) matrix of images
