@@ -151,7 +151,7 @@ class CustomDatasetBert(data.Dataset):
         """
         anns = self.get_annotations(self.json_list , index)
         if self.val:
-            anns = anns[random.randint(0,1)] #validation은 image<->text가 1개만 mapping
+            anns = [anns[random.randint(0,1)]] #validation은 image<->text가 1개만 mapping
         
         ann_ids = len(anns)
         
