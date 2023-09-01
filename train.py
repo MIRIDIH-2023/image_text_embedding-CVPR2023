@@ -254,11 +254,11 @@ def main():
     wandb.init(project='cross_modal_retrieval', notes=args.log_dir, name = args.remark)
     wandb.config.update(args)
 
+    ###################################### my custom vocab ##################################
     # Load Vocabulary Wrapper
     #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
     #vocab = pickle.load(open(vocab_path, 'rb'))
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    
     vocab = Vocabulary()
     vocab.add_word('<mask>')
     vocab.add_word('<pad>')
@@ -268,7 +268,9 @@ def main():
     for keys, idx in enumerate(tokenizer.vocab.items()):
         vocab.add_word(keys)
     print('Add special tokens inclue <mask> into the vocab')
-
+    ###################################### my custom vocab ##################################
+    
+    
     # Dataloaders
     if args.data_name in ['coco', 'f30k', 'coco_butd', 'f30k_butd']:
         txt_per_img = 5

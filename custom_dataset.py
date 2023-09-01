@@ -14,6 +14,29 @@ import nltk
 from PIL import Image
 from transformers import BertTokenizer
 
+def tokenize(sentence, vocab, drop_prob):
+    # Convert sentence (string) to word ids.
+    def caption_augmentation(tokens):
+        idxs = []
+        for t in tokens:
+            prob = random.random()
+            if prob < drop_prob:
+                prob /= drop_prob
+                if prob < 0.5:
+                    idxs += [vocab('<mask>')]
+                elif prob < 0.6:
+                    idxs += [random.randrange(len(vocab))]
+            else:
+                idxs += [vocab(t)]
+        return idxs
+    
+    if sys.version_info.major > 2:
+        tokens = nltk.tokenize.word_tokenize(str(sentence).lower())
+    else:
+        tokens = nltk.tokenize.word_tokenize(str(sentence).lower().decode('utf-8'))
+    return torch.Tensor(
+        [vocab('<start>')] + caption_augmentation(tokens) + [vocab('<end>')]
+    )
 
 def process_caption_bert(caption, tokenizer, drop_prob, train):
         output_tokens = []
@@ -56,7 +79,7 @@ def process_caption_bert(caption, tokenizer, drop_prob, train):
 
 class CustomDatasetBert(data.Dataset):
 
-    def __init__(self, image_root, json_root, split, transform=None, ids=None, drop_prob=0):
+    def __init__(self, image_root, json_root, vocab, split, transform=None, ids=None, drop_prob=0):
         """
         Args:
             root: image directory.
@@ -74,9 +97,9 @@ class CustomDatasetBert(data.Dataset):
         
         self.transform = transform
         self.drop_prob = drop_prob
-        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        self.vocab = self.tokenizer.vocab
-
+        #self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        #self.vocab = self.tokenizer.vocab
+        self.vocab = vocab
 
     def __len__(self):
         return self.image_len
@@ -87,7 +110,8 @@ class CustomDatasetBert(data.Dataset):
         ann_ids, anns, path, image = self.get_raw_item(index)
         if self.transform is not None:
             image = self.transform(image)
-        anns = [process_caption_bert(ann, self.tokenizer, self.drop_prob, self.train) for ann in anns]
+        #anns = [process_caption_bert(ann, self.tokenizer, self.drop_prob, self.train) for ann in anns]
+        anns = [tokenize(ann, vocab, self.drop_prob) for ann in anns]
         
         return image, anns, index, ann_ids
 
