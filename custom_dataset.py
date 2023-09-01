@@ -52,45 +52,6 @@ def tokenize(sentence, vocab, drop_prob):
         [vocab('<start>')] + caption_augmentation(tokens) + [vocab('<end>')]
     )
 
-def process_caption_bert(caption, tokenizer, drop_prob, train):
-        output_tokens = []
-        deleted_idx = []
-        tokens = tokenizer.basic_tokenizer.tokenize(caption)
-        
-        for i, token in enumerate(tokens):
-            sub_tokens = tokenizer.wordpiece_tokenizer.tokenize(token)
-            prob = random.random()
-
-            if prob < drop_prob and train:  # mask/remove the tokens only during training
-                prob /= drop_prob
-
-                # 50% randomly change token to mask token
-                if prob < 0.25:
-                    for sub_token in sub_tokens:
-                        output_tokens.append("[MASK]")
-                # 10% randomly change token to random token
-                elif prob < 0.3:
-                    for sub_token in sub_tokens:
-                        output_tokens.append(random.choice(list(tokenizer.vocab.keys())))
-                        # -> rest 10% randomly keep current token
-                else:
-                    for sub_token in sub_tokens:
-                        output_tokens.append(sub_token)
-                        deleted_idx.append(len(output_tokens) - 1)
-            else:
-                for sub_token in sub_tokens:
-                    # no masking token (will be ignored by loss function later)
-                    output_tokens.append(sub_token)
-
-        if len(deleted_idx) != 0:
-            output_tokens = [output_tokens[i] for i in range(len(output_tokens)) if i not in deleted_idx]
-
-        output_tokens = ['[CLS]'] + output_tokens + ['[SEP]']
-        target = tokenizer.convert_tokens_to_ids(output_tokens)
-        target = torch.Tensor(target)
-        return target
-
-
 class CustomDatasetBert(data.Dataset):
 
     def __init__(self, image_root, json_root, vocab, split, transform=None, ids=None, drop_prob=0):
@@ -194,3 +155,47 @@ class CustomDatasetBert(data.Dataset):
             return_list = [keyword , text]
         
         return return_list
+    
+
+
+
+
+"""
+def process_caption_bert(caption, tokenizer, drop_prob, train):
+        output_tokens = []
+        deleted_idx = []
+        tokens = tokenizer.basic_tokenizer.tokenize(caption)
+        
+        for i, token in enumerate(tokens):
+            sub_tokens = tokenizer.wordpiece_tokenizer.tokenize(token)
+            prob = random.random()
+
+            if prob < drop_prob and train:  # mask/remove the tokens only during training
+                prob /= drop_prob
+
+                # 50% randomly change token to mask token
+                if prob < 0.25:
+                    for sub_token in sub_tokens:
+                        output_tokens.append("[MASK]")
+                # 10% randomly change token to random token
+                elif prob < 0.3:
+                    for sub_token in sub_tokens:
+                        output_tokens.append(random.choice(list(tokenizer.vocab.keys())))
+                        # -> rest 10% randomly keep current token
+                else:
+                    for sub_token in sub_tokens:
+                        output_tokens.append(sub_token)
+                        deleted_idx.append(len(output_tokens) - 1)
+            else:
+                for sub_token in sub_tokens:
+                    # no masking token (will be ignored by loss function later)
+                    output_tokens.append(sub_token)
+
+        if len(deleted_idx) != 0:
+            output_tokens = [output_tokens[i] for i in range(len(output_tokens)) if i not in deleted_idx]
+
+        output_tokens = ['[CLS]'] + output_tokens + ['[SEP]']
+        target = tokenizer.convert_tokens_to_ids(output_tokens)
+        target = torch.Tensor(target)
+        return target
+"""
