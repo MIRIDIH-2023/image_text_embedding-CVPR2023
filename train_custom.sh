@@ -9,7 +9,7 @@ python3 train.py \
 --lr 1e-3 --txt_lr_scale 1 --img_pie_lr_scale 0.1 --txt_pie_lr_scale 0.1 \
 --eval_on_gpu --sync_bn --amp \
 --loss smooth_chamfer --eval_similarity smooth_chamfer --temperature 16 \
---txt_pooling rnn --arch slot --txt_attention_input wemb \
+--txt_pooling cls --arch slot --txt_attention_input wemb \
 --spm_img_pos_enc_type none --spm_txt_pos_enc_type sine \
 --spm_1x1 --spm_residual --spm_residual_norm --spm_residual_activation none \
 --spm_activation gelu \
@@ -23,3 +23,5 @@ python3 train.py \
 --weight_decay 1e-4 --grad_clip 1 --lr_warmup -1 --unif_residual \
 --workers 4 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle
+
+#txt_pooling rnn -> cls
