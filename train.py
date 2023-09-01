@@ -24,6 +24,7 @@ from similarity import SetwiseSimilarity
 from model_spm import VSE
 
 from transformers import BertTokenizer
+from transformers import BertTokenizerFast
 
 import logging
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
@@ -262,7 +263,9 @@ def main():
     # Load Vocabulary Wrapper
     #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
     #vocab = pickle.load(open(vocab_path, 'rb'))
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
+    #tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
+    tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
+    
     vocab = Vocabulary()
     vocab.add_word('<mask>')
     vocab.add_word('<pad>')

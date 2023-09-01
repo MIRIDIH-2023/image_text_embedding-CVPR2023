@@ -13,8 +13,10 @@ import torchvision.transforms as transforms
 import nltk
 from PIL import Image
 from transformers import BertTokenizer
+from transformers import BertTokenizerFast
 
-TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
+#TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
+TOKENIZER = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
 TOKENIZER.add_special_tokens(special_tokens_dict=
                             {'additional_special_tokens' : ['<mask>','<pad>','<start>','<end>','<unk>']})
 
