@@ -16,7 +16,7 @@ from transformers import BertTokenizer
 
 TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
 TOKENIZER.add_special_tokens(special_tokens_dict=
-                            {'additiona_special_tokens' : ['<mask>','<pad>','<start>','<end>','<unk>']})
+                            {'additional_special_tokens' : ['<mask>','<pad>','<start>','<end>','<unk>']})
 
 
 print(TOKENIZER.tokenize(text='hello word'))
