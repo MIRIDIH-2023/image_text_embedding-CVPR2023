@@ -2,16 +2,18 @@ from transformers import BertTokenizer
 from vocab import Vocabulary
 
 if __name__ == "__main__":
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    tokenizer = BertTokenizer.from_pretrained('kykim/bert-kor-base')
     
     vocab = Vocabulary()
-    vocab.add_word('<mask>')
-    vocab.add_word('<pad>')
-    vocab.add_word('<start>')
-    vocab.add_word('<end>')
-    vocab.add_word('<unk>')
     for keys, idx in enumerate(tokenizer.vocab.items()):
         vocab.add_word(keys)
+    vocab.replace(41994,'<mask>')
+    vocab.replace(41995,'<pad>')
+    vocab.replace(41996,'<start>')
+    vocab.replace(41997,'<end>')
+    vocab.replace(41998,'<unk>')
     
-    print(tokenizer.tokenize(text='hello word'))
-    
+    print(vocab.word2idx)
+    print(tokenizer.all_special_tokens)
+    print(vocab.idx)
+    print(tokenizer.vocab_size)

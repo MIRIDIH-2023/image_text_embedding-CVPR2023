@@ -560,7 +560,6 @@ class EncoderTextBERT(nn.Module):
     def forward(self, x, lengths):
         bert_attention_mask = (x != 0).float()
         pie_attention_mask = (x == 0)
-        print(x.shape , lengths)
         bert_emb = self.bert(x, bert_attention_mask)
         bert_emb = bert_emb[0]
         cap_len = lengths

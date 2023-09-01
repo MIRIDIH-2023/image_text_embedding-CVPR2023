@@ -267,13 +267,14 @@ def main():
     tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
     print(f"original tokenizer vocab size : {tokenizer.vocab_size}")
     vocab = Vocabulary()
-    vocab.add_word('<mask>')
-    vocab.add_word('<pad>')
-    vocab.add_word('<start>')
-    vocab.add_word('<end>')
-    vocab.add_word('<unk>')
+    
     for keys, idx in enumerate(tokenizer.vocab.items()):
         vocab.add_word(keys)
+    vocab.replace(41994,'<mask>') #안쓰는거 새로운 토큰으로 교체
+    vocab.replace(41995,'<pad>')
+    vocab.replace(41996,'<start>')
+    vocab.replace(41997,'<end>')
+    vocab.replace(41998,'<unk>')
     print('Add special tokens inclue <mask> into the vocab')
     ###################################### my custom vocab ##################################
     print(f"length of vocab : {len(vocab.word2idx)}")

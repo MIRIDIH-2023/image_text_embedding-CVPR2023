@@ -35,6 +35,13 @@ class Vocabulary(object):
   def __len__(self):
     return len(self.word2idx)
 
+  def replace(self,before_word , new_word):
+    if before_word in self.word2idx:
+      target_idx = self.word2idx[before_word] #index 몇번인지 찾고
+      self.idx2word.update({target_idx : new_word})  #idx2word의 해당 index 값 새로운 것으로 변경
+      self.word2idx[new_word] = self.word2idx.pop(before_word) #word2idx는 이전값 삭제하고 새걸로
+      #전체 길이는 그대로
+
 
 def from_tgif_tsv(path):
   captions = [line.strip().split('\t')[1] \
