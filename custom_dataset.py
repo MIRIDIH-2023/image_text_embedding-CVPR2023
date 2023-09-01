@@ -21,7 +21,9 @@ def tokenize(sentence, vocab, drop_prob):
     # Convert sentence (string) to word ids.
     def caption_augmentation(tokens):
         idxs = []
-        for t in tokens:
+        for i, t in enumerate(tokens):
+            if(i>500):
+                break
             prob = random.random()
             if prob < drop_prob:
                 prob /= drop_prob
