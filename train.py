@@ -258,11 +258,16 @@ def main():
     #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
     #vocab = pickle.load(open(vocab_path, 'rb'))
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    tokenizer.add_special_tokens(special_tokens_dict={'additional_special_tokens' : '<mask>'})
-    vocab = tokenizer.vocab
-    print('Add <mask> token into the vocab')
-    print(tokenizer.additional_special_tokens)
-    print(vocab)
+    
+    vocab = Vocabulary()
+    vocab.add_word('<mask>')
+    vocab.add_word('<pad>')
+    vocab.add_word('<start>')
+    vocab.add_word('<end>')
+    vocab.add_word('<unk>')
+    for keys, idx in enumerate(tokenizer.vocab.items()):
+        vocab.add_word(keys)
+    print('Add special tokens inclue <mask> into the vocab')
 
     # Dataloaders
     if args.data_name in ['coco', 'f30k', 'coco_butd', 'f30k_butd']:
