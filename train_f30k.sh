@@ -1,5 +1,5 @@
 python3 train.py \
---data_name custom --cnn_type resnet152 --wemb_type glove \
+--data_name f30k --cnn_type resnet152 --wemb_type glove \
 --margin 0.2 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
 --img_attention --txt_attention --img_finetune --txt_finetune \
 --mmd_weight 0.01 --unif_weight 0.01 \
@@ -23,6 +23,7 @@ python3 train.py \
 --weight_decay 1e-4 --grad_clip 1 --lr_warmup -1 --unif_residual \
 --workers 8 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle
+--log_dir /content/drive/MyDrive/Image_text_retrival_logs
 export TOKENIZERS_PARALLELISM=True
 
 
