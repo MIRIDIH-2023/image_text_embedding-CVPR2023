@@ -1212,7 +1212,7 @@ def get_loaders(opt, vocab):
         roots['val']['img'], #root
         roots['val']['cap'], #json
         vocab, transform, ids=ids['val'],
-        batch_size=opt.batch_size, shuffle=True,
+        batch_size=opt.batch_size, shuffle=False,
         num_workers=opt.workers,
         opt=opt)
     print("make validation loader")

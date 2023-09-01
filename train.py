@@ -390,7 +390,7 @@ def main():
 
         if args.lr_scheduler == 'pvse_cosine' and epoch == args.warm_epoch:
             lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=args.warm_epoch, T_mult=1)
-        
+        """
         warm_iter = epoch == args.lr_warmup
         loss, losses_dict, stat_dict = train(
             epoch, trn_loader, model, criterion, optimizer, scaler, args, warm_iter, 
@@ -404,7 +404,7 @@ def main():
         for key, val in stat_dict.items():
             wandb.log({key: val.avg}, step=total_iter)
         wandb.log({"LR" : optimizer.param_groups[0]['lr']}, step=total_iter)
-        
+        """
         # evaluate on validation set
         with torch.no_grad():
             if epoch % args.eval_epoch == 0:

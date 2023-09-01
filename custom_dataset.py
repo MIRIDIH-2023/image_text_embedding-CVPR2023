@@ -100,11 +100,13 @@ class CustomDatasetBert(data.Dataset):
         """
         self.root = image_root
         self.image_len = 10000 #len(os.listdir(image_root))
+        self.validation_len = 1000
         
         with open(json_root,'rb') as file:
             self.json_list = pickle.load(file) 
         
         self.train = split == 'train'
+        self.val = split=='val'
         
         self.transform = transform
         self.drop_prob = drop_prob
@@ -113,10 +115,18 @@ class CustomDatasetBert(data.Dataset):
         self.vocab = vocab
 
     def __len__(self):
+        if self.train:
+            return self.image_len - self.validation_len
+        if self.val:
+            return self.validation_len
         return self.image_len
 
 
     def __getitem__(self, index):
+        if self.train:
+            index+=self.validation_len #앞 1000개는 validation
+        
+        
         vocab = self.vocab
         ann_ids, anns, path, image = self.get_raw_item(index)
         if self.transform is not None:
