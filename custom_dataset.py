@@ -14,6 +14,9 @@ import nltk
 from PIL import Image
 from transformers import BertTokenizer
 
+TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
+print(TOKENIZER.tokenize(text='hello word'))
+
 def tokenize(sentence, vocab, drop_prob):
     # Convert sentence (string) to word ids.
     def caption_augmentation(tokens):
@@ -31,9 +34,11 @@ def tokenize(sentence, vocab, drop_prob):
         return idxs
     
     if sys.version_info.major > 2:
-        tokens = nltk.tokenize.word_tokenize(str(sentence).lower())
+        #tokens = nltk.tokenize.word_tokenize(str(sentence).lower())
+        tokens = TOKENIZER.tokenize(text=str(sentence).lower())
     else:
-        tokens = nltk.tokenize.word_tokenize(str(sentence).lower().decode('utf-8'))
+        #tokens = nltk.tokenize.word_tokenize(str(sentence).lower().decode('utf-8'))
+        tokens = TOKENIZER.tokenize(text=str(sentence).lower().decode('utf-8'))
     return torch.Tensor(
         [vocab('<start>')] + caption_augmentation(tokens) + [vocab('<end>')]
     )

@@ -13,4 +13,4 @@ if __name__ == "__main__":
     for keys, idx in enumerate(tokenizer.vocab.items()):
         vocab.add_word(keys)
     
-    
+    print(tokenizer.tokenize(text='hello word'))
