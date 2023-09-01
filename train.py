@@ -264,19 +264,19 @@ def main():
     # Load Vocabulary Wrapper
     #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
     #vocab = pickle.load(open(vocab_path, 'rb'))
-    #tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
     #tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
-    tokenizer = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
+    #tokenizer = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
     print(f"original tokenizer vocab size : {tokenizer.vocab_size}")
     vocab = Vocabulary()
     
     for keys, idx in tokenizer.vocab.items():
         vocab.add_word(keys)
-    vocab.replace('三','<mask>') #三 上 下 不 丑
-    vocab.replace('上','<pad>')
-    vocab.replace('下','<start>')
-    vocab.replace('不','<end>')
-    vocab.replace('丑','<unk>')
+    vocab.replace('##：','<mask>') #三 上 下 不 丑
+    vocab.replace('##？','<pad>')
+    vocab.replace('##～','<start>')
+    vocab.replace('##／','<end>')
+    vocab.replace('##．','<unk>')
     print('Add special tokens inclue <mask> into the vocab')
     ###################################### my custom vocab ##################################
     print(f"length of vocab : {len(vocab.word2idx)}")
