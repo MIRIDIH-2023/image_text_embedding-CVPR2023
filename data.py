@@ -54,8 +54,10 @@ def get_paths(path, name='coco', use_restval=True):
     
     else:    
         if 'coco' == name:
-            imgdir = os.path.join(path, 'images')
-            capdir = os.path.join(path, 'annotations')
+            #imgdir = os.path.join(path, 'images')
+            #capdir = os.path.join(path, 'annotations')
+            imgdir = '/content/COCO_data'
+            capdir = '/content/drive/MyDrive/COCO/annotations'
             roots['train'] = {
                 'img': os.path.join(imgdir, 'train2014'),
                 'cap': os.path.join(capdir, 'captions_train2014.json'),
