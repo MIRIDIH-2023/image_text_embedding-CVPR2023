@@ -924,8 +924,6 @@ def collate_fn(data):
         end = sentences_len[i]
         padded_sentences[i, :end] = cap[:end]
 
-    for i in range(len(flatten_sentences)):
-        print(padded_sentences[i])
     
     return images, padded_sentences, sentences_len, recovery_idx, img_ids
 
