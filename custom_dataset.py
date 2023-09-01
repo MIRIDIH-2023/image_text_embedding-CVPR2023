@@ -149,7 +149,10 @@ class CustomDatasetBert(data.Dataset):
             path : image path
             image : image (~.png)
         """
-        anns = get_annotations(self.json_list , index)
+        anns = self.get_annotations(self.json_list , index)
+        if self.val:
+            anns = anns[random.randint(0,1)] #validation은 image<->text가 1개만 mapping
+        
         ann_ids = len(anns)
         
         path = f"thumnail_image_{index}.png"
@@ -158,32 +161,32 @@ class CustomDatasetBert(data.Dataset):
         return ann_ids, anns, path, image
     
 
-def get_annotations(data_list , index):
-    """
-    image와 mapping된 keyword / xml text / (image caption)을 list 형태로 return
+    def get_annotations(self,data_list , index):
+        """
+        image와 mapping된 keyword / xml text / (image caption)을 list 형태로 return
 
-    Args:
-        data_list (_type_): json data list
-        index (_type_): _description_
+        Args:
+            data_list (_type_): json data list
+            index (_type_): _description_
 
-    Returns:
-        _type_: annotation list
-    """
-    return_list = []
-    while len(return_list)==0:
+        Returns:
+            _type_: annotation list
+        """
+        return_list = []
+        while len(return_list)==0:
+            
+            keyword = data_list[index]['keyword']
+
+            if len(keyword) == 0: #if has error, pick another index
+                index = random.randint(0,len(data_list)-1)
+                continue
+
+            text = ""
+
+            for j in range(len(data_list[index]['form'])):
+                if type(data_list[index]['form'][j]['text']) == str:
+                    text += data_list[index]['form'][j]['text'] + "\n"
+            
+            return_list = [keyword , text]
         
-        keyword = data_list[index]['keyword']
-
-        if len(keyword) == 0: #if has error, pick another index
-            index = random.randint(0,len(data_list)-1)
-            continue
-
-        text = ""
-
-        for j in range(len(data_list[index]['form'])):
-            if type(data_list[index]['form'][j]['text']) == str:
-                text += data_list[index]['form'][j]['text'] + "\n"
-        
-        return_list = [keyword , text]
-    
-    return return_list
+        return return_list

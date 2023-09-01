@@ -134,7 +134,7 @@ def validate(dataset, data_loader, model, args, similarity_fn, validation, epoch
     model.eval()
 
     nreps = 5 if args.data_name in ['f30k', 'coco', 'coco_butd', 'f30k_butd'] else 10
-    nreps = 2 if args.data_name in ['custom'] else 5 ####################
+    nreps = 1 if args.data_name in ['custom'] else 5 ####################
 
     img_embs, txt_embs = encode_data(model, data_loader, 'butd' in args.data_name, args.eval_on_gpu)
     # 5fold cross-validation, only for MSCOCO
