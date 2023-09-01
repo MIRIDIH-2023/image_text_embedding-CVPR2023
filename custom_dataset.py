@@ -93,7 +93,7 @@ class CustomDatasetBert(data.Dataset):
             transform: transformer for image.
         """
         self.root = image_root
-        self.image_len = len(os.listdir(image_root))
+        self.image_len = 10000 #len(os.listdir(image_root))
         
         with open(json_root,'rb') as file:
             self.json_list = pickle.load(file) 

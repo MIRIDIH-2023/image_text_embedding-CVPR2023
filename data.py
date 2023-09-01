@@ -1032,7 +1032,6 @@ def get_loader_single(data_name, split, root, json, vocab, transform,
     f30k_butd_splits = {'train':'train', 'val':'dev', 'test':'test'}
     
     use_bert = opt.use_bert
-    
     if 'custom' == data_name:
         if test:
             dataset = CustomDatasetBert(
@@ -1197,6 +1196,7 @@ def get_loaders(opt, vocab):
     dpath = os.path.join(opt.data_path, opt.data_name)
     roots, ids = get_paths(dpath, opt.data_name)
     transform = get_transform(opt.data_name, 'train', opt) #ok
+    
     train_loader = get_loader_single(
         opt.data_name, 'train',
         roots['train']['img'], #root
@@ -1205,7 +1205,7 @@ def get_loaders(opt, vocab):
         batch_size=opt.batch_size, shuffle=True,
         num_workers=opt.workers,
         opt=opt)
-
+    print("make train_loader")
     transform = get_transform(opt.data_name, 'val', opt) #Ok
     val_loader = get_loader_single(
         opt.data_name, 'val',
@@ -1215,7 +1215,7 @@ def get_loaders(opt, vocab):
         batch_size=opt.batch_size, shuffle=True,
         num_workers=opt.workers,
         opt=opt)
-
+    print("make validation loader")
     return train_loader, val_loader
 
 
