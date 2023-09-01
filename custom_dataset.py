@@ -33,9 +33,9 @@ def tokenize(sentence, vocab, drop_prob):
             prob = random.random()
             if prob < drop_prob:
                 prob /= drop_prob
-                if prob < 0.5:
+                if prob < 0.2:
                     idxs += [vocab('<mask>')]
-                elif prob < 0.6:
+                elif prob < 0.25:
                     idxs += [random.randrange(len(vocab))]
             else:
                 idxs += [vocab(t)]
