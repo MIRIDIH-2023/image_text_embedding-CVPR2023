@@ -14,3 +14,4 @@ if __name__ == "__main__":
         vocab.add_word(keys)
     
     print(tokenizer.tokenize(text='hello word'))
+    
