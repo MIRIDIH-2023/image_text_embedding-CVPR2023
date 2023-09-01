@@ -47,6 +47,7 @@ def tokenize(sentence, vocab, drop_prob):
     else:
         #tokens = nltk.tokenize.word_tokenize(str(sentence).lower().decode('utf-8'))
         tokens = TOKENIZER.tokenize(text=str(sentence).lower().decode('utf-8'))
+    
     return torch.Tensor(
         [vocab('<start>')] + caption_augmentation(tokens) + [vocab('<end>')]
     )
@@ -64,11 +65,11 @@ def process_caption_bert(caption, tokenizer, drop_prob, train):
                 prob /= drop_prob
 
                 # 50% randomly change token to mask token
-                if prob < 0.5:
+                if prob < 0.25:
                     for sub_token in sub_tokens:
                         output_tokens.append("[MASK]")
                 # 10% randomly change token to random token
-                elif prob < 0.6:
+                elif prob < 0.3:
                     for sub_token in sub_tokens:
                         output_tokens.append(random.choice(list(tokenizer.vocab.keys())))
                         # -> rest 10% randomly keep current token
@@ -101,7 +102,7 @@ class CustomDatasetBert(data.Dataset):
             transform: transformer for image.
         """
         self.root = image_root
-        self.image_len = 10000 #len(os.listdir(image_root))
+        self.image_len = 20000 #len(os.listdir(image_root))
         self.validation_len = 1000
         
         with open(json_root,'rb') as file:
@@ -154,7 +155,7 @@ class CustomDatasetBert(data.Dataset):
         anns = self.get_annotations(self.json_list , index)
         #if self.val:
         #    anns = [anns[random.randint(0,1)]] #validation은 image<->text가 1개만 mapping
-        anns = [anns[0]] #Only use keyword
+        anns = [anns[1]] #Only use text 
         
         ann_ids = len(anns)
         

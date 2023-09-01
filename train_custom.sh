@@ -23,7 +23,7 @@ python3 train.py \
 --weight_decay 1e-4 --grad_clip 1 --lr_warmup -1 --unif_residual \
 --workers 8 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle
-export TOKENIZERS_PARALLELISM=false
+export TOKENIZERS_PARALLELISM=True
 
 
 #txt_pooling rnn -> cls
