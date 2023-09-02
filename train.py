@@ -113,12 +113,13 @@ def train(epoch, data_loader, model, criterion, optimizer, scaler, args, lr_warm
         scaler.step(optimizer)
         scaler.update()
         
-        wandb.log({'iter':total_iter})
+        
         if scheduler is not None and total_iter >= lr_warmup:
             scheduler.step()
-        
-        wandb.log({'loss val': losses.val})
-        wandb.log({'loss avg': losses.avg})
+        if(itr%20==0):
+            wandb.log({'iter':total_iter})
+            wandb.log({'loss val': losses.val})
+            wandb.log({'loss avg': losses.avg})
         
         # Print log info
     log_msg = 'loss: %.4f (%.4f)' %(losses.val, losses.avg)

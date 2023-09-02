@@ -1,9 +1,9 @@
 python3 train.py \
 --data_name coco --cnn_type resnet152 --wemb_type glove \
---margin 0.2 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
+--margin 0.1 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
 --img_attention --txt_attention --img_finetune --txt_finetune \
 --mmd_weight 0.01 --unif_weight 0.01 \
---batch_size 80 --warm_epoch 0 --num_epochs 20 \
+--batch_size 160 --warm_epoch 0 --num_epochs 20 \
 --optimizer adamw --lr_scheduler cosine --lr_step_size 30 --lr_step_gamma 0.1 \
 --warm_img --finetune_lr_lower 1 \
 --lr 1e-3 --txt_lr_scale 1 --img_pie_lr_scale 0.1 --txt_pie_lr_scale 0.1 \
