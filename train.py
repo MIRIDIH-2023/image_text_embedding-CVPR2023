@@ -262,8 +262,10 @@ def main():
 
     ###################################### my custom vocab ##################################
     # Load Vocabulary Wrapper
-    #vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
-    #vocab = pickle.load(open(vocab_path, 'rb'))
+    vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
+    vocab = pickle.load(open(vocab_path, 'rb'))
+    
+    """
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
     #tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
     #tokenizer = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
@@ -277,7 +279,9 @@ def main():
     vocab.replace('##～','<start>')
     vocab.replace('##／','<end>')
     vocab.replace('##．','<unk>')
+    
     print('Add special tokens inclue <mask> into the vocab')
+    """
     ###################################### my custom vocab ##################################
     print(f"length of vocab : {len(vocab.word2idx)}")
     
@@ -301,6 +305,7 @@ def main():
         model = VSE(vocab.word2idx, args)
     else:
         model = VSE(vocab.word2idx, args)
+    print(model)
     print("model made")
     
     if torch.cuda.is_available():
@@ -399,29 +404,29 @@ def main():
             scheduler=lr_scheduler if args.lr_scheduler == 'cosine' else None
         )
         
-        wandb.log({"epoch": epoch}, step=total_iter)
-        wandb.log({"Loss": loss}, step=total_iter)
+        wandb.log({"epoch": epoch})
+        wandb.log({"Loss": loss})
         for key, val in losses_dict.items():
-            wandb.log({key: val.avg}, step=total_iter)
+            wandb.log({key: val.avg})
         for key, val in stat_dict.items():
-            wandb.log({key: val.avg}, step=total_iter)
-        wandb.log({"LR" : optimizer.param_groups[0]['lr']}, step=total_iter)
+            wandb.log({key: val.avg})
+        wandb.log({"LR" : optimizer.param_groups[0]['lr']})
         
         # evaluate on validation set
         with torch.no_grad():
             #if epoch % args.eval_epoch == 0:
             if True:
                 val_score, i2t_recall, t2i_recall, recall_1k = validate(None, val_loader, model, args, eval_similarity_fn, True, epoch, best_score)
-                wandb.log({"val i2t R@1" : i2t_recall[0]}, step=total_iter)
-                wandb.log({"val i2t R@5" : i2t_recall[1]}, step=total_iter)
-                wandb.log({"val i2t R@10" : i2t_recall[2]}, step=total_iter)
+                wandb.log({"val i2t R@1" : i2t_recall[0]})
+                wandb.log({"val i2t R@5" : i2t_recall[1]})
+                wandb.log({"val i2t R@10" : i2t_recall[2]})
 
-                wandb.log({"val t2i R@1" : t2i_recall[0]}, step=total_iter)
-                wandb.log({"val t2i R@5" : t2i_recall[1]}, step=total_iter)
-                wandb.log({"val t2i R@10" : t2i_recall[2]}, step=total_iter)
+                wandb.log({"val t2i R@1" : t2i_recall[0]})
+                wandb.log({"val t2i R@5" : t2i_recall[1]})
+                wandb.log({"val t2i R@10" : t2i_recall[2]})
                 
                 rsum_val = i2t_recall[0]+i2t_recall[1]+i2t_recall[2]+t2i_recall[0]+t2i_recall[1]+t2i_recall[2]
-                wandb.log({"val rsum": rsum_val}, step=total_iter)
+                wandb.log({"val rsum": rsum_val})
 
                 # remember best rsum and save ckpt
                 best_score, updated = update_best_score(rsum_val, best_score, args.val_metric=='rsum')

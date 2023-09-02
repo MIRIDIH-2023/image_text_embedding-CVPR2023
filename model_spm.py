@@ -383,7 +383,7 @@ class EncoderText(nn.Module):
         self.use_attention = opt.txt_attention
 
         # Word embedding
-        self.embed = nn.Embedding(int(len(word2idx)*1.01), word_dim) #multiply 1% for keep error
+        self.embed = nn.Embedding(int(len(word2idx)), word_dim)
         self.embed.weight.requires_grad = opt.txt_finetune
 
         # Sentence embedding

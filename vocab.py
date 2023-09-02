@@ -9,8 +9,8 @@ import os
 annotations = {
   'mrw':  ['mrw-v1.0.json'],
   'tgif': ['tgif-v1.0.tsv'],
-  'coco': ['annotations/captions_train2014.json',
-           'annotations/captions_val2014.json'],
+  'coco': ['COCO_annotations/captions_train2014.json',
+           'COCO_annotations/captions_val2014.json'],
 }
 
 class Vocabulary(object):
@@ -122,7 +122,8 @@ def build_vocab(data_path, data_name, jsons, threshold):
   vocab.add_word('<start>')
   vocab.add_word('<end>')
   vocab.add_word('<unk>')
-
+  vocab.add_word('<mask>')
+  
   # Add words to the vocabulary.
   for i, word in enumerate(words):
     vocab.add_word(word)

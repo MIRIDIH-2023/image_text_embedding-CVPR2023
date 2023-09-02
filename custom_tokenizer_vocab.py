@@ -1,10 +1,12 @@
-from transformers import BertTokenizer
+from transformers import BertTokenizer , BertModel
 from vocab import Vocabulary
 
 if __name__ == "__main__":
     #tokenizer = BertTokenizer.from_pretrained('monologg/kobigbird-bert-base')
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    bert = BertModel.from_pretrained('bert-base-uncased')
     
+    """
     vocab = Vocabulary()
     for keys, idx in tokenizer.vocab.items():
         vocab.add_word(keys)
@@ -18,3 +20,5 @@ if __name__ == "__main__":
     print(tokenizer.all_special_tokens)
     print(vocab.idx)
     print(tokenizer.vocab_size)
+    """
+    print(bert)
