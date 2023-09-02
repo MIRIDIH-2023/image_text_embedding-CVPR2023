@@ -257,7 +257,7 @@ def main():
     
     args.log_dir = LOG_DIR
     args.logger_name = LOG_DIR
-    wandb.init(project='cross_modal_retrieval', notes=args.log_dir, name = args.remark)
+    wandb.init(project='coco_pretrain_cross_modal_retrieval', notes=args.log_dir, name = args.remark)
     wandb.config.update(args)
 
     ###################################### my custom vocab ##################################
