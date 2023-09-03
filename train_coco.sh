@@ -24,7 +24,6 @@ python3 train.py \
 --workers 8 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle \
 --log_dir /content/drive/MyDrive/Image_text_retrival_logs \
-export TOKENIZERS_PARALLELISM=True \
 --use_bert
 
 
