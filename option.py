@@ -22,7 +22,7 @@ parser.add_argument('--debug', action='store_true', help='Debug mode: use 1/10th
 parser.add_argument('--log_dir', default=CUR_DIR+'/logs/', help='Path to save result logs') 
 
 # Data parameters
-parser.add_argument('--word_dim', default=300, type=int, help='Dimensionality of the word embedding')
+parser.add_argument('--word_dim', default=768, type=int, help='Dimensionality of the word embedding')
 parser.add_argument('--workers', default=16, type=int, help='Number of data loader workers')
 parser.add_argument('--crop_size', default=224, type=int, help='Size of an image crop as the CNN input')
 

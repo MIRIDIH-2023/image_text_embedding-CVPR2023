@@ -1,9 +1,9 @@
 python3 train.py \
---data_name coco --cnn_type resnet152 --wemb_type glove \
---margin 0.2 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
+--data_name coco --cnn_type resnext_wsl --wemb_type glove \
+--margin 0.1 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
 --img_attention --txt_attention --img_finetune --txt_finetune \
 --mmd_weight 0.01 --unif_weight 0.01 \
---batch_size 200 --warm_epoch 0 --num_epochs 80 \
+--batch_size 200 --warm_epoch 1 --num_epochs 80 \
 --optimizer adamw --lr_scheduler cosine --lr_step_size 30 --lr_step_gamma 0.1 \
 --warm_img --finetune_lr_lower 1 \
 --lr 1e-3 --txt_lr_scale 1 --img_pie_lr_scale 0.1 --txt_pie_lr_scale 0.1 \
@@ -23,8 +23,9 @@ python3 train.py \
 --weight_decay 1e-4 --grad_clip 1 --lr_warmup -1 --unif_residual \
 --workers 8 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle \
---log_dir /content/drive/MyDrive/Image_text_retrival_logs
-export TOKENIZERS_PARALLELISM=True
+--log_dir /content/drive/MyDrive/Image_text_retrival_logs \
+export TOKENIZERS_PARALLELISM=True \
+--use_bert
 
 
 #txt_pooling rnn -> cls

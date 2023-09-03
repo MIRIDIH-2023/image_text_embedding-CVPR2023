@@ -38,7 +38,7 @@ class TripletLoss(nn.Module):
         self.txt_emb_norm = []
         self.margin = opt.margin if hasattr(opt, 'margin') else 1.0
         self.mmd_weight = opt.mmd_weight if hasattr(opt, 'mmd_weight') else 0.
-        self.div_weight = opt.div_weight if hasattr(opt, 'div_weight') else 0.
+        self.div_weight = opt.div_weight if hasattr(opt, 'div_weight') else 0.01
         self.unif_weight = opt.unif_weight if hasattr(opt, 'unif_weight') else 0.
         self.qreg_weight = opt.qreg_weight if hasattr(opt, 'qreg_weight') else 0.
         self.max_violation = opt.max_violation if hasattr(opt, 'max_violation') else False
