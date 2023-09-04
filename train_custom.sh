@@ -1,7 +1,7 @@
 python3 train.py \
 --data_name custom --cnn_type resnext_wsl --wemb_type glove \
 --margin 0.2 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
---img_attention --txt_attention--txt_finetune \
+--img_attention --txt_attention --txt_finetune \
 --mmd_weight 0.01 --unif_weight 0.01 \
 --batch_size 30 --warm_epoch 0 --num_epochs 30 \
 --optimizer adamw --lr_scheduler cosine --lr_step_size 30 --lr_step_gamma 0.1 \
