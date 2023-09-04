@@ -3,7 +3,7 @@ python3 train.py \
 --margin 0.2 --max_violation --img_num_embeds 4 --txt_num_embeds 4 \
 --img_attention --txt_attention --txt_finetune \
 --mmd_weight 0.01 --unif_weight 0.01 \
---batch_size 30 --warm_epoch 0 --num_epochs 30 \
+--batch_size 100 --warm_epoch 0 --num_epochs 30 \
 --optimizer adamw --lr_scheduler cosine --lr_step_size 30 --lr_step_gamma 0.1 \
 --warm_img --finetune_lr_lower 1 \
 --lr 1e-4 --txt_lr_scale 1 --img_pie_lr_scale 0.1 --txt_pie_lr_scale 0.1 \
