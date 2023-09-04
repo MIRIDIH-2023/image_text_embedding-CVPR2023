@@ -27,7 +27,7 @@ def encode_data(model, data_loader, butd, use_gpu=False):
             img, txt, img_len, txt_len = img.cuda(), txt.cuda(), img_len.cuda(), txt_len.cuda()
         else:
             img_len = None
-            img, txt, txt_len, ids = data #################
+            img, txt, txt_len, ids, _ = data #################
             img, txt, txt_len = img.cuda(), txt.cuda(), txt_len.cuda()
 
         # compute the embeddings
