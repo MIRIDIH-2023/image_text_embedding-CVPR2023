@@ -8,7 +8,7 @@ python3 train.py \
 --warm_img --finetune_lr_lower 1 \
 --lr 1e-4 --txt_lr_scale 1 --img_pie_lr_scale 0.1 --txt_pie_lr_scale 0.1 \
 --eval_on_gpu --sync_bn --amp \
---loss smooth_chamfer --eval_similarity smooth_chamfer --temperature 16 \
+--temperature 16 \
 --txt_pooling cls --arch slot --txt_attention_input wemb \
 --spm_img_pos_enc_type none --spm_txt_pos_enc_type sine \
 --spm_1x1 --spm_residual --spm_residual_norm --spm_residual_activation none \
@@ -23,7 +23,9 @@ python3 train.py \
 --weight_decay 1e-4 --grad_clip 1 --lr_warmup -1 --unif_residual \
 --workers 8 --dropout 0.1 --caption_drop_prob 0.2 --butd_drop_prob 0.2 \
 --image_root /content/drive/MyDrive/images --json_root /content/drive/MyDrive/data_temp/data_list.pickle \
---use_bert
+--use_bert \
+--loss max --eval_similarity max
+#--loss smooth_chamfer --eval_similarity smooth_chamfer
 #--img_finetune 
 
 #txt_pooling rnn -> cls
