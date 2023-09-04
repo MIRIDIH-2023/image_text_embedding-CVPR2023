@@ -508,8 +508,10 @@ class EncoderTextBERT(nn.Module):
         self.embed_size = embed_size
         self.use_attention = opt.txt_attention
         
-        self.bert = BertModel.from_pretrained('bert-base-uncased')
-        #self.bert = BertModel.from_pretrained("kykim/bert-kor-base")
+        if opt.data_name=='coco':
+            self.bert = BertModel.from_pretrained('bert-base-uncased')
+        else:
+            self.bert = BertModel.from_pretrained("kykim/bert-kor-base")
         #self.bert = AutoModel.from_pretrained("monologg/kobigbird-bert-base", attention_type="original_full")
         
         self.linear = nn.Linear(768, self.embed_size)

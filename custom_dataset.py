@@ -16,8 +16,8 @@ from transformers import BertTokenizer
 from transformers import BertTokenizerFast
 from transformers import AutoModel, AutoTokenizer
 
-TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
-#TOKENIZER = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
+#TOKENIZER = BertTokenizer.from_pretrained('bert-base-uncased')
+TOKENIZER = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
 #TOKENIZER = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
 TOKENIZER.add_special_tokens(special_tokens_dict=
                             {'additional_special_tokens' : ['<mask>','<pad>','<start>','<end>','<unk>']})
@@ -63,7 +63,7 @@ class CustomDatasetBert(data.Dataset):
             transform: transformer for image.
         """
         self.root = image_root
-        self.image_len = 20000 #len(os.listdir(image_root))
+        self.image_len = 30000 #len(os.listdir(image_root))
         self.validation_len = 1000
         
         with open(json_root,'rb') as file:
@@ -116,7 +116,7 @@ class CustomDatasetBert(data.Dataset):
         anns = self.get_annotations(self.json_list , index)
         #if self.val:
         #    anns = [anns[random.randint(0,1)]] #validation은 image<->text가 1개만 mapping
-        anns = [anns[1]] #Only use text 
+        anns = [anns[0]] #Only use keyword 
         
         ann_ids = len(anns)
         
@@ -141,10 +141,12 @@ class CustomDatasetBert(data.Dataset):
         while len(return_list)==0:
             
             keyword = data_list[index]['keyword']
-
+            keyword = random.shuffle(keyword)
+            
             if len(keyword) == 0: #if has error, pick another index
                 index = random.randint(0,len(data_list)-1)
                 continue
+            keyword = ' '.join(keyword)
 
             text = ""
 

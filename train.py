@@ -258,31 +258,32 @@ def main():
     
     args.log_dir = LOG_DIR
     args.logger_name = LOG_DIR
-    wandb.init(project='coco_pretrain_cross_modal_retrieval', notes=args.log_dir, name = args.remark)
+    wandb.init(project='custom_cross_modal_retrieval', notes=args.log_dir, name = args.remark)
     wandb.config.update(args)
 
     ###################################### my custom vocab ##################################
     # Load Vocabulary Wrapper
-    vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
-    vocab = pickle.load(open(vocab_path, 'rb'))
+    if args.data_name == 'coco':
+        vocab_path = os.path.join(args.vocab_path, '%s_vocab.pkl' % args.data_name)
+        vocab = pickle.load(open(vocab_path, 'rb'))
+    else:
     
-    """
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
-    #tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
-    #tokenizer = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
-    print(f"original tokenizer vocab size : {tokenizer.vocab_size}")
-    vocab = Vocabulary()
+        #tokenizer = BertTokenizer.from_pretrained('bert-base-uncased') #CUSTOM DATASET에서의 tokenizer와 같아야 함.
+        tokenizer = BertTokenizerFast.from_pretrained("kykim/bert-kor-base")
+        #tokenizer = AutoTokenizer.from_pretrained('monologg/kobigbird-bert-base')
+        print(f"original tokenizer vocab size : {tokenizer.vocab_size}")
+        vocab = Vocabulary()
+        
+        for keys, idx in tokenizer.vocab.items():
+            vocab.add_word(keys)
+        vocab.replace('[unused100]','<mask>') #三 上 下 不 丑
+        vocab.replace('[unused101]','<pad>')
+        vocab.replace('[unused102]','<start>')
+        vocab.replace('[unused103]','<end>')
+        vocab.replace('[unused104]','<unk>')
+        
+        print('Add special tokens inclue <mask> into the vocab')
     
-    for keys, idx in tokenizer.vocab.items():
-        vocab.add_word(keys)
-    vocab.replace('##：','<mask>') #三 上 下 不 丑
-    vocab.replace('##？','<pad>')
-    vocab.replace('##～','<start>')
-    vocab.replace('##／','<end>')
-    vocab.replace('##．','<unk>')
-    
-    print('Add special tokens inclue <mask> into the vocab')
-    """
     ###################################### my custom vocab ##################################
     print(f"length of vocab : {len(vocab.word2idx)}")
     
